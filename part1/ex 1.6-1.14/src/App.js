@@ -22,7 +22,7 @@ const Statistics = ({ good, neutral, bad }) => {
   }
 
   if(total()){
-    return (<p>No given feedback</p>)
+    return (<p>No feedback given</p>)
   }
   else{
     return (
