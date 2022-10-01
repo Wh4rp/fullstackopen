@@ -18,14 +18,13 @@ const App = () => {
   const [selected, setSelected] = useState(0)
 
   const [points, setPoints] = useState({
-    0: 0, 1: 0, 2: 0, 3: 0
+    0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6:0
   })
 
   const vote = () => {
-    const newPoints = { 
-      ...points,
-      selected : points.selected + 1
-    }
+    const newPoints = { ...points }
+    newPoints[selected] += 1
+    console.log(selected, newPoints)
     setPoints(newPoints)
   }
 
