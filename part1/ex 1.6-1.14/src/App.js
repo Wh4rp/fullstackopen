@@ -21,17 +21,22 @@ const Statistics = ({ good, neutral, bad }) => {
     return good / total() * 100 + ' %'
   }
 
-  return (
-    <div>
-      <h2>statics</h2>
-      <ShowStat stat="good" value={good}/>
-      <ShowStat stat="neutral" value={neutral}/>
-      <ShowStat stat="bad" value={bad}/>
-      <ShowStat stat="total" value={total()}/>
-      <ShowStat stat="average" value={average()}/>
-      <ShowStat stat="positive" value={positive()}/>
-    </div>
-  )
+  if(total()){
+    return (<p>No given feedback</p>)
+  }
+  else{
+    return (
+      <div>
+        <h2>statics</h2>
+        <ShowStat stat="good" value={good}/>
+        <ShowStat stat="neutral" value={neutral}/>
+        <ShowStat stat="bad" value={bad}/>
+        <ShowStat stat="total" value={total()}/>
+        <ShowStat stat="average" value={average()}/>
+        <ShowStat stat="positive" value={positive()}/>
+      </div>
+    )
+  }
 }
 
 const App = () => {
