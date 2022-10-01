@@ -21,7 +21,7 @@ const Statistics = ({ good, neutral, bad }) => {
     return good / total() * 100 + ' %'
   }
 
-  if(total()){
+  if(total() === 0){
     return (<p>No feedback given</p>)
   }
   else{
