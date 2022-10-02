@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import axios from 'axios'
 
 const Persons = ({ persons }) => (
   <>
@@ -43,9 +44,20 @@ const PersonForm = ({ name, handleName, number, handleNumber, handleClick }) => 
 )
 
 const App = () => {
-  const [persons, setPersons] = useState([
-    { name: 'Arto Hellas', number: 1234 }
-  ])
+  const [persons, setPersons] = useState([])
+
+  const hook = () => {
+    console.log('effect')
+    axios
+      .get('http://localhost:3001/persons')
+      .then((response) => {
+        console.log('get data')
+        setPersons(response.data)
+      })
+  }
+
+  useEffect(hook, [])
+
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
@@ -68,7 +80,7 @@ const App = () => {
 
   const handleClick = (event) => {
     event.preventDefault()
-    if (persons.some((person) => person.name == newName)) {
+    if (persons.some((person) => person.name === newName)) {
       alert(`${newName} is already added to phonebook`)
     }
     else {
