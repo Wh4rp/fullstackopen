@@ -3,7 +3,7 @@ import { useState } from 'react'
 const ShowPersons = ({ persons }) => (
   <>
     {persons.map((person) =>
-      <p>{person.name}</p>
+      <p key={person.name}>{person.name}</p>
     )}
   </>
 )
