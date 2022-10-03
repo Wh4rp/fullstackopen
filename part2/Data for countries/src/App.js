@@ -23,7 +23,7 @@ const Country = ({ country }) => (
   </>
 )
 
-const FoundCountries = ({ countries }) => {
+const FoundCountries = ({ countries, handleButton}) => {
   console.log('countries.length', countries.length)
   console.log('countries', countries)
   if (countries.length > 10 && countries.length != 0) {
@@ -35,6 +35,10 @@ const FoundCountries = ({ countries }) => {
         {countries.map((country) =>
           <div key={country.name}>
             {country.name}
+            &nbsp;
+            <button onClick={handleButton} value={country.name}>
+              show
+            </button>
           </div>
         )}
       </div>
@@ -62,6 +66,7 @@ const App = () => {
   useEffect(hook, [])
 
   const handleChangeSearch = (event) => {
+    console.log(event.target.value)
     const newSearch = event.target.value
     setSearch(newSearch)
     const newFound = countries.filter((country) => {
@@ -79,7 +84,7 @@ const App = () => {
           onChange={handleChangeSearch}
         />
       </form>
-      <FoundCountries countries={found} />
+      <FoundCountries countries={found} handleButton={handleChangeSearch}/>
     </>
   )
 }
