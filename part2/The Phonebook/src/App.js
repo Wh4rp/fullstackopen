@@ -1,10 +1,14 @@
 import { useState, useEffect } from 'react'
 import personServices from './services/persons'
 
-const Persons = ({ persons }) => (
+const Persons = ({ persons, handleDelete }) => (
   <>
     {persons.map((person) =>
-      <p key={person.name}>{person.name} {person.number}</p>
+      <p
+        key={person.name}>{person.name}
+        {person.number}
+        <button value={person.id} onClick={handleDelete}>delete</button>
+      </p>
     )}
   </>
 )
@@ -90,11 +94,31 @@ const App = () => {
       }
       personServices
         .create(newPerson)
-        .then(returnedData => { console.log('returnedData', returnedData) })
-      setPersons(persons.concat(newPerson))
+        .then(returnedData => {
+          console.log('returnedData', returnedData)
+          setPersons(persons.concat(newPerson))
+          hook()
+        })
+
     }
     setNewName('')
     setNewNumber('')
+  }
+
+  const handleDelete = (event) => {
+    console.log('event', event)
+    console.log('event value', event.target.value)
+    const personToRemove = persons.find((person) => person.id == event.target.value)
+    console.log(personToRemove)
+    if (window.confirm(`Do you really want to remove ${personToRemove.name}`)) {
+      console.log('deleted')
+      personServices
+        .deleteObject(event.target.value)
+        .then(response => {
+          console.log('response', response)
+          hook()
+        })
+    }
   }
 
   return (
@@ -112,7 +136,7 @@ const App = () => {
       />
 
       <h2>Numbers</h2>
-      <Persons persons={personsToShow} />
+      <Persons persons={personsToShow} handleDelete={handleDelete} />
     </div>
   )
 }
