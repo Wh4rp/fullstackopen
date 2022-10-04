@@ -85,7 +85,19 @@ const App = () => {
   const handleClick = (event) => {
     event.preventDefault()
     if (persons.some((person) => person.name === newName)) {
-      alert(`${newName} is already added to phonebook`)
+      if (window.confirm(`${newName} is already added to phonebook, replace the old name with a new one`)) {
+        const personUpdate = persons.find((person) => person.name == newName)
+        personServices
+          .update(personUpdate.id,
+            {
+              ...personUpdate,
+              number: newNumber
+            })
+          .then(response => {
+            console.log('response', response)
+            hook()
+          })
+      }
     }
     else {
       const newPerson = {
