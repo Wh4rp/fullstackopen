@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
+import personServices from './services/persons'
 
 const Persons = ({ persons }) => (
   <>
@@ -48,11 +48,11 @@ const App = () => {
 
   const hook = () => {
     console.log('effect')
-    axios
-      .get('http://localhost:3001/persons')
-      .then((response) => {
+    personServices
+      .getAll()
+      .then((returnedPersons) => {
         console.log('get data')
-        setPersons(response.data)
+        setPersons(returnedPersons)
       })
   }
 
@@ -88,9 +88,9 @@ const App = () => {
         name: newName,
         number: newNumber
       }
-      axios
-      .post(`http://localhost:3001/persons`, newPerson)
-      .then(response => {console.log('response', response)})
+      personServices
+        .create(newPerson)
+        .then(returnedData => { console.log('returnedData', returnedData) })
       setPersons(persons.concat(newPerson))
     }
     setNewName('')
