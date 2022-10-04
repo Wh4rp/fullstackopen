@@ -47,20 +47,7 @@ const PersonForm = ({ name, handleName, number, handleNumber, handleClick }) => 
   </form>
 )
 
-const Notification = ({ message }) => {
-  if (message === null) {
-    return null
-  }
-  // const notificationStyle = {
-  //   color: red;
-  //   background: lightgrey;
-  //   font-size: 20px;
-  //   border-style: solid;
-  //   border-radius: 5px;
-  //   padding: 10px;
-  //   margin-bottom: 10px;
-  // }
-
+const Notification = ({ message, errorMessage }) => {
   const notificationStyle = {
     color: 'green',
     background: 'lightgrey',
@@ -71,10 +58,21 @@ const Notification = ({ message }) => {
     marginBottom: 10
   }
 
+  const errorStyle = {
+    color: 'red',
+    background: 'lightgrey',
+    fontSize: 20,
+    borderStyle: 'solid',
+    borderRadius: 5,
+    padding: 10,
+    marginBottom: 10
+  }
+
   return (
-    <div style={notificationStyle}>
-      {message}
-    </div>
+    <>
+      {message && <div style={notificationStyle}>{message}</div>}
+      {errorMessage && <div style={errorStyle}>{errorMessage}</div>}
+    </>
   )
 }
 
@@ -97,6 +95,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
   const [notificationMessage, setNotificationMessage] = useState(null)
+  const [errorMessage, setErrorMessage] = useState(null)
 
   const personsToShow = filter.length === 0 ? persons : persons.filter((person) => (
     person.name.toLowerCase().includes(filter.toLowerCase()) || (person.number + '').includes(filter)
@@ -129,6 +128,10 @@ const App = () => {
             console.log('response', response)
             hook()
             setNotificationMessage(`Updated ${newName}`)
+          })
+          .catch(error => {
+            console.log('error', error)
+            setErrorMessage(`Information of ${newName} has already been removed from server`)
           })
       }
     }
@@ -169,7 +172,7 @@ const App = () => {
 
   return (
     <div>
-      <Notification message={notificationMessage} />
+      <Notification message={notificationMessage} errorMessage={errorMessage} />
       <h2>Phonebook</h2>
       <Filter filter={filter} handler={handleFilterChange} />
 
