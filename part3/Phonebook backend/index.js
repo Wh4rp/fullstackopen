@@ -28,7 +28,7 @@ app.get('/api/persons', (req, res) => {
     res.json(persons)
 })
 
-app.get('/api/person/:id', (req, res) => {
+app.get('/api/persons/:id', (req, res) => {
     const id = Number(req.params.id)
     const person = persons.find(p => p.id === id)
     res.json(person)
