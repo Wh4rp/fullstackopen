@@ -4,8 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon node index.js"
+    "start": "nodemon node index.js",
+    "deploy": "fly deploy",
+    "build:ui": "cd '../../part2/The Phonebook' && npm run build && cp -r build '../../part3/Phonebook backend'",
+    "deploy:full": "npm run build:ui && npm run deploy",
+    "logs:prod": "fly logs"
   },
   "author": "",
   "license": "ISC",
