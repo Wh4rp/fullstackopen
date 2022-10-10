@@ -176,7 +176,7 @@ const App = () => {
   return (
     <div>
       <Notification message={notificationMessage} errorMessage={errorMessage} />
-      <h2>Phonebook</h2>
+      <h2>Phonebook TEST</h2>
       <Filter filter={filter} handler={handleFilterChange} />
 
       <h3>Add a new</h3>
