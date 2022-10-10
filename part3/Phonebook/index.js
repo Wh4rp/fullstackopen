@@ -63,31 +63,43 @@ app.post('/api/persons', (req, res) => {
         })
 })
 
-app.get('/api/persons/:id', (req, res) => {
-    Person.findById(request.params.id)
+app.get('/api/persons/:id', (req, res, next) => {
+    Person.findById(req.params.id)
         .then(person => {
-            response.json(person)
+            if (person) {
+                res.json(person)
+            }
+            else {
+                res.status(404).end()
+            }
         })
-        .catch(error => {
-            res.status(404).end()
-        })
+        .catch(error => next(error))
 })
 
-app.delete('/api/persons/:id', (req, res) => {
-    const id = Number(req.params.id)
-    const person = persons.find(p => p.id === id)
-    if (person) {
-        persons = persons.filter(p => p.id !== id)
-        res.status(204).end()
-    }
-    else {
-        res.status(404).end()
-    }
+app.delete('/api/persons/:id', (req, res, next) => {
+    Person.findByIdAndRemove(req.params.id)
+        .then(result => {
+            res.status(204).end()
+        })
+        .catch(error => next(error))
 })
 
 app.get('/info', (req, res) => {
     res.send(`<p>Phonebook has info for ${persons.length} person</p><p>${new Date()}</p>`)
 })
+
+const errorHandler = (error, req, res, next) => {
+    console.error(error.message)
+
+    if (error.name === 'CastError') {
+        return res.status(400).send({ error: 'malformatted id' })
+    }
+
+    next(error)
+}
+
+// this has to be the last loaded middleware.
+app.use(errorHandler)
 
 const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
