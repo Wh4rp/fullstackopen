@@ -18,10 +18,6 @@ app.use(logger)
 
 app.use(express.static('build'))
 
-const generateId = () => {
-    return Math.floor(Math.random() * 1000000)
-}
-
 app.get('/api/persons', (req, res) => {
     Person.find({})
         .then(persons => {
