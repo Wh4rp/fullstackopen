@@ -124,14 +124,14 @@ const App = () => {
               ...personUpdate,
               number: newNumber
             })
-          .then(response => {
-            console.log('response', response)
+          .then(data => {
+            console.log('data', data)
             hook()
             setNotificationMessage(`Updated ${newName}`)
           })
           .catch(error => {
             console.log('error', error)
-            setErrorMessage(`Information of ${newName} has already been removed from server`)
+            setErrorMessage(error.response.data.error)
           })
       }
     }
@@ -148,7 +148,10 @@ const App = () => {
           hook()
           setNotificationMessage(`Added ${newName}`)
         })
-
+        .catch(error => {
+          console.log('error', error)
+          setErrorMessage(error.response.data.error)
+        })
     }
     setNewName('')
     setNewNumber('')
