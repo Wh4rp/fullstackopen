@@ -53,7 +53,7 @@ app.post('/api/persons', (req, res) => {
             }
             const newPerson = new Person({
                 name: body.name,
-                number: body.number || 0,
+                number: body.number,
             })
 
             newPerson.save()
