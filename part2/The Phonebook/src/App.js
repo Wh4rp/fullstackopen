@@ -4,9 +4,9 @@ import personServices from './services/persons'
 const Persons = ({ persons, handleDelete }) => (
   <>
     {persons.map((person) =>
-      <p
-        key={person.name}>{person.name}
-        {person.number}
+      <p key={person.name}>
+        {person.name} &nbsp;
+        {person.number} &nbsp;
         <button value={person.id} onClick={handleDelete}>delete</button>
       </p>
     )}
