@@ -109,7 +109,6 @@ const errorHandler = (error, req, res, next) => {
     next(error)
 }
 
-// this has to be the last loaded middleware.
 app.use(errorHandler)
 
 const PORT = process.env.PORT || 3001
