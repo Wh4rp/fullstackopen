@@ -1,5 +1,7 @@
+require('dotenv').config()
 const express = require('express')
 const app = express()
+const Person = require('./models/person')
 
 const cors = require('cors')
 
@@ -16,41 +18,19 @@ app.use(logger)
 
 app.use(express.static('build'))
 
-let persons = [
-    {
-        "id": 1,
-        "name": "Arto Hellas",
-        "number": "040-123456"
-    },
-    {
-        "id": 2,
-        "name": "Ada Lovelace",
-        "number": "39-44-5323523"
-    },
-    {
-        "id": 3,
-        "name": "Dan Abramov",
-        "number": "12-43-234345"
-    },
-    {
-        "id": 4,
-        "name": "Mary Poppendieck",
-        "number": "39-23-6423122"
-    }
-]
-
 const generateId = () => {
     return Math.floor(Math.random() * 1000000)
 }
 
 app.get('/api/persons', (req, res) => {
-    res.json(persons)
+    Person.find({})
+        .then(persons => {
+            res.json(persons)
+        })
 })
 
 app.post('/api/persons', (req, res) => {
     const body = req.body
-
-    console.log('body', body)
 
     if (!body.name) {
         return res.status(400).json({
@@ -58,34 +38,39 @@ app.post('/api/persons', (req, res) => {
         })
     }
 
-    const isNameUnique = persons.find(person => person.name === body.name)
-
-    if (isNameUnique) {
+    if (!body.number) {
         return res.status(400).json({
-            error: 'name must be unique'
+            error: 'number missing'
         })
     }
 
-    const newPerson = {
-        name: body.name,
-        number: body.number || 0,
-        id: generateId()
-    }
+    Person.find({ name: body.name })
+        .then(result => {
+            if (result.length > 0) {
+                return res.status(400).json({
+                    error: 'name must be unique'
+                })
+            }
+            const newPerson = new Person({
+                name: body.name,
+                number: body.number || 0,
+            })
 
-    persons = persons.concat(newPerson)
-
-    res.json(newPerson)
+            newPerson.save()
+                .then(savedPerson => {
+                    res.json(savedPerson)
+                })
+        })
 })
 
 app.get('/api/persons/:id', (req, res) => {
-    const id = Number(req.params.id)
-    const person = persons.find(p => p.id === id)
-    if (person) {
-        res.json(person)
-    }
-    else {
-        res.status(404).end()
-    }
+    Person.findById(request.params.id)
+        .then(person => {
+            response.json(person)
+        })
+        .catch(error => {
+            res.status(404).end()
+        })
 })
 
 app.delete('/api/persons/:id', (req, res) => {

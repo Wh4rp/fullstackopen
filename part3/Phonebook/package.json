@@ -6,7 +6,7 @@
   "scripts": {
     "start": "nodemon node index.js",
     "deploy": "fly deploy",
-    "build:ui": "cd '../../part2/The Phonebook' && npm run build && cp -r build '../../part3/Phonebook backend'",
+    "build:ui": "cd '../../part2/The Phonebook' && npm run build && cp -r build '../../part3/Phonebook'",
     "deploy:full": "npm run build:ui && npm run deploy",
     "logs:prod": "fly logs"
   },
@@ -14,6 +14,7 @@
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
     "express": "^4.18.1",
     "mongoose": "^6.6.5",
     "morgan": "^1.10.0"
