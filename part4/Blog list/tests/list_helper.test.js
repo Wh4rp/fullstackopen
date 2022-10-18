@@ -75,7 +75,7 @@ describe('total likes', () => {
     }  
   ]
 
-  test('function must to return total likes from a list of length greather than 1', () => {
+  test('function must to return total likes from a list of length greater than 1', () => {
     const result = listHelper.totalLikes(blogsLength6)
     expect(result).toBe(36)
   })
