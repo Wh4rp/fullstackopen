@@ -101,7 +101,6 @@ describe('favorite blog', () => {
 
   test('when list has only one blog, equals to that', () => {
     const result = listHelper.favoriteBlog(listWithOneBlog)
-    console.log('result', result)
     expect(result).toEqual({
       _id: '5a422aa71b54a676234d17f8',
       title: 'Go To Statement Considered Harmful',
